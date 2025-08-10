@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Photos on {{ date }}</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <div class="container">
+    <h1 style="margin-bottom: 0.5rem;">Mars Rover Photos on {{ date }}</h1>
+    <a href="{{ url_for('index') }}" style="display: inline-block; margin-bottom: 1.5rem;">&#8592; Back to Search</a>
+
+        {% if photos %}
+            <div class="gallery">
+                {% for photo in photos %}
+                <div class="card">
+                    <img src="{{ photo.img_src }}" alt="Mars Photo" />
+                    <p><strong>Camera:</strong> {{ photo.camera.full_name }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-photos">No photos found for the selected date.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

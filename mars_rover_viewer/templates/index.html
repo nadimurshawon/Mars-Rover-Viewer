@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mars Rover Photo Viewer</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Mars Rover Photo Viewer</h1>
+
+        <form method="POST" id="dateForm">
+            <label for="date">Select a Date (YYYY-MM-DD):</label>
+            <input
+                type="date"
+                id="date"
+                name="date"
+                required
+                max="{{ max_date }}"
+                value="{{ date if date else '' }}"
+            />
+            <button type="submit" id="submitBtn">View Photos</button>
+        </form>
+
+        <div id="loading" class="hidden">Loading photos...</div>
+
+        {% if date %}
+            <h2>Photos taken on: {{ date }}</h2>
+        {% endif %}
+
+        {% if photos %}
+            <div class="gallery">
+                {% for photo in photos %}
+                <div class="card">
+                    <img src="{{ photo.img_src }}" alt="Mars Photo" />
+                    <p><strong>Camera:</strong> {{ photo.camera.full_name }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        {% elif date %}
+            <p class="no-photos">No photos found for the selected date.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        const form = document.getElementById('dateForm');
+        const loading = document.getElementById('loading');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', () => {
+            loading.classList.remove('hidden');
+            submitBtn.disabled = true; // সাবমিট বোতাম disable করে দিলাম
+        });
+    </script>
+</body>
+</html>
